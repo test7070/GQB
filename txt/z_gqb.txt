@@ -1488,7 +1488,8 @@ z_gqb9:--z_gqb9票據收票明細
 		indate nvarchar(10)
 	) 
 	insert into @tmp 
-	select recno,gno,noa,cno,acomp,tbank,case substring(tbank,1,charindex('-',tbank)-1) when '合庫' then '合庫-南高雄' when '國泰世華' then '世華-苓雅' end tbank,accoun2, 
+	select recno,gno,noa,cno,acomp,tbank,case when tbank like '%-%' then
+	(case substring(tbank,1,charindex('-',tbank)-1) when '合庫' then '合庫-南高雄' when '國泰世華' then '世華-苓雅' end) else tbank end tbank,accoun2, 
 	substring(datea,1, charindex('/', datea)-1) a, 
 	substring(datea, charindex('/', datea)+1,2) b, 
 	case when substring(RIGHT(datea,2),1,1) = '0' then SUBSTRING(RIGHT(datea,2),2,1) else RIGHT(datea,2) end c, 
@@ -1506,7 +1507,7 @@ z_gqb9:--z_gqb9票據收票明細
 	case when money >= 10 then left(RIGHT(money,2),1) else '-' end, 
 	case when money >= 1 then right(money,1) else '-' end, 
 	'','','',money,indate
-	from @tmp2 
+	from @tmp2
 
 	--要改要問
 	select acomp a01, * from @tmp order by cno,tbank,acomp,recno;
