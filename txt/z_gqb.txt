@@ -692,6 +692,7 @@ z_gqb3:--z_gqb3
 		declare @t_bacomp nvarchar(10) = case when '#non'=[39] then '' else [39] end
 		declare @t_eacomp nvarchar(10) = case when '#non'=[40] then char(255) else [40] end
 		declare @t_sort3 nvarchar(max)
+		declare @t_proj nvarchar(10)='[33]'
 		
 		set @t_accy = '[1]'
 		set @c_typea = '[2]'
@@ -838,7 +839,7 @@ z_gqb3:--z_gqb3
 			--,reverse(substring(reverse(convert(nvarchar(15),CONVERT(money,pcount),1)),4,12)) pp
 			dbo.getComma([money],0)mm
 			,dbo.getComma(pcount,0)pp
-			,dbo.charbr(memo,13) memo
+			,case when @t_proj='DC' then dbo.charbr(memo,13) else memo end memo
 			,*
 			from @tmp order by indate,gno,gqbno
 		end
