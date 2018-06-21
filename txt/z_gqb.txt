@@ -1814,10 +1814,10 @@ z_gqb12:--z_gqb12
 	declare @bank nvarchar(max)
 	declare @memo nvarchar(max)
 	
-	declare @maxcount int = 15 -- memo
-	declare @maxcount2 int = 20 -- comp
-	declare @maxcount3 int = 16 -- tbk
-	declare @maxcount4 int = 15 -- bank
+	declare @maxcount int = 12 -- memo
+	declare @maxcount2 int = 14 -- comp
+	declare @maxcount3 int = 14 -- tbk
+	declare @maxcount4 int = 14 -- bank
 	
 	declare cursor_table cursor for
 	select noa,gqbno,comp,tbk,bank,zz,memo from #tmp where gno='1'
@@ -1988,7 +1988,7 @@ z_gqb12:--z_gqb12
 	--end
 	------------------------------------------------------------------------------------------
 	select
-	case when isnull(tbk,'')='' and (qno='1' or gno='5') then '未託收' else case when @t_proj='vu' then isnull(tacc1,'')+dbo.split(tbk,'-',1) else tbk end end tbk 
+	case when isnull(tbk,'')='' and (qno='1' or gno='5') then '未託收' else case when @t_proj='vu' then isnull(tacc1,'')+case when len(isnull(tacc1,''))>0 then '<BR>' else '' end+dbo.split(tbk,'-',1) else tbk end end tbk 
 	,b.typea cty 
 	,dbo.getComma([money],0)mm
 	,dbo.getComma(money1,0)m1
