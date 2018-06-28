@@ -811,7 +811,7 @@ z_gqb3:--z_gqb3
 			,dbo.getComma(pcount,0)pp
 			,dbo.charbr(memo,13) memo
 			,*
-			from @tmp order by compno,gno,gqbno
+			from @tmp order by compno,gno,case when @t_proj='VU' then indate else gqbno end,gqbno
 		end
 		else
 		begin
